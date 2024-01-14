@@ -14,7 +14,7 @@ var rootCmd = &cobra.Command{
 	Use:   "img-gen",
 	Short: "A simple cmd tool to create jpg, png or webp images",
 	Long: `
-    img-gen allows you to create a jpg, png or webp image of a specified
+    img-gen allows you to create jpg, png or webp images of specified
     height, width, name and filling. Currently monotone fillings with some
     of the common colors, as well as gradient fillings are supported.
 
