@@ -101,7 +101,13 @@ func generateImage(cmd *cobra.Command, args []string) {
 	// Create a new image with the specified dimensions
 	img := image.NewRGBA(image.Rect(0, 0, width, height))
 
-    filler := (&filling.FillerFactory{}).Create(fillingType)
+    var filler filling.Filler
+    filler, err = (&filling.FillerFactory{}).Create(fillingType)
+
+    if err != nil {
+        log.Fatal(err)
+    }
+
     filler.Fill(img)
 
     if exists, fileInfo := fileExists(fileName); exists {

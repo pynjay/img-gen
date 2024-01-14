@@ -1,7 +1,8 @@
 package filling
 
 import (
-	"log"
+	"errors"
+	"fmt"
 	"strings"
 )
 
@@ -14,9 +15,9 @@ const (
 
 type FillerFactory struct {}
 
-func (f *FillerFactory) Create(filling FillingType) Filler {
+func (f *FillerFactory) Create(filling FillingType) (Filler, error) {
     colorMatcher := NewColorMatcher()
-    var filler Filler
+    var filler Filler = nil
     rgbaColor, err := colorMatcher.matchColorToRgba(filling)
 
     if err == nil {
@@ -33,12 +34,12 @@ func (f *FillerFactory) Create(filling FillingType) Filler {
             if err == nil && FillingType(result[0]) == Filling_gradient {
                 filler = GradientFiller{col: &rgbaColor}
             } else {
-                log.Fatalf("Filling %s not recognized", filling)
+                return filler, errors.New(fmt.Sprintf("Filling %s not recognized", filling))
             }
         } else {
-            log.Fatalf("Color %s not recognized", filling)
+            return filler, errors.New(fmt.Sprintf("Filling %s not recognized", filling))
         }
     }
 
-    return filler
+    return filler, nil
 }
